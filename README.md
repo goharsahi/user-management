@@ -30,14 +30,14 @@ This library relies on `google/apiclient-services`. That library provides up-to-
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@bitbucket.org:iss-module/user-management.git"
+            "url": "git@bitbucket.org:sss-module/user-management.git"
         }
     ],
     "require": {   
         ...,
         ...,
         ...,     
-        "iss-module/user-module": "*",
+        "sss-module/user-module": "*",
         "robmorgan/phinx": "dev-master"
     },
 ```    
