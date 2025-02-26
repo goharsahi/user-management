@@ -1,0 +1,7 @@
+<?php
+
+$this->headMeta()
+    ->appendName("description", $this->title);
+$this->headTitle($this->title);
+
+echo $this->partial("/partial/user-module/index.phtml");

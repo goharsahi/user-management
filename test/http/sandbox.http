@@ -1,0 +1,92 @@
+# curl -X "POST" "http://"
+#-H "Content-Type: application/x-www-form-urlencoded"
+#-H "Accept: 1.0"
+#--data-urlencode "grant_type=client_credentials"
+#--data-urlencode "client_id="
+#--data-urlencode "client_secret="
+POST {{apiurl}}{{endpoint_authenticate}}
+Accept: 1.0
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{client_id}}&client_secret={{client_secret}}
+
+> {%
+    client.test("Authenticate: " + "Request executed successfully", function() {
+        client.assert(response.status === 200, "Factory status is not 200.");
+    });
+    client.test("Authenticate: " + "token exists", function() {
+        client.assert(response.body.hasOwnProperty("access_token"), "Cannot find 'access_token' in response");
+    });
+    client.test("Authenticate: " + "token expiry seconds limit exists", function() {
+        client.assert(response.body.hasOwnProperty("expires_in"), "Cannot find 'expires_in' in response");
+    });
+    client.test("Authenticate: " + "token type exists", function() {
+        client.assert(response.body.hasOwnProperty("token_type"), "Cannot find 'token_type' in response");
+    });
+    client.test("Authenticate: " + "scope exists", function() {
+        client.assert(response.body.hasOwnProperty("scope"), "Cannot find 'scope' in response");
+    });
+    client.test("Authenticate: " + "Factory content-type is json", function() {
+        var type = response.contentType.mimeType;
+        client.assert(type === "application/json", "Expected 'application/json' but received '" + type + "'");
+
+        client.log("Authenticate tests concluded.");
+    });
+
+    client.global.set("access_token", response.body.access_token);
+%}
+
+###
+# curl -X POST http://portal.local/oauth/resource -H "Bearer 46aba050480e7558cb9125b6b80de6eb477595a6"
+POST {{apiurl}}{{endpoint_resource}}
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+###
+# For getting access token
+POST https://crmv2.idealsalessolutions.co.uk/rest/portal/auth
+Content-Type: application/json
+
+{
+    "email": "test17@idealsalessolutions.co.uk",
+    "password": "test123",
+    "oauthToken": "xxxxx"
+}
+
+###
+# For submitting id token from Google API - endpoint to be replaced
+POST https://crmv2.idealsalessolutions.co.uk/rest/portal/auth
+Content-Type: application/json
+
+{
+  "email": "test17@idealsalessolutions.co.uk",
+  "password": "test123",
+  "oauthToken": "xxxxx"
+}
+
+###
+# For submitting id token from Google API - endpoint to be replaced
+POST http://localhost:8080/authenticate
+Content-Type: application/json
+cache-control: no-cache
+accept: application/json
+
+{
+  "email": "user@localhost.com",
+  "password": "user1234"
+}
+
+###
+# For submitting id token from Google API - endpoint to be replaced
+POST http://localhost:8080/user
+Content-Type: application/json
+cache-control: no-cache
+accept: application/json
+
+{
+  "email": "user@localhost.com",
+  "first_name": "Test",
+  "last_name": "User"
+}
+
+###

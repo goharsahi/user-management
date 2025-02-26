@@ -1,0 +1,38 @@
+<?php
+
+return [
+    "login_credentials" => [
+        "login_success_redirect" => "http://localhost",
+        "client_id" => "",
+        "client_secret" => "",
+    ],
+    // TODO: Change below endpoints as per requirement. The current endpoints are as per sample 'api-portal'.
+    "custom_auth_api_uris" => [
+        "authenticate_uri" => "<API-URI>/authenticate",
+        "user_role_uri" => "<API-URI>/user-role",
+        "client_uri" => "<API-URI>/client/1",
+        "authorization_code_uri" => "<API-URI>/authorization-code",
+        "access_token_uri" => "<API-URI>/access-token",
+        "refresh_token_uri" => "",
+        "user_uri" => "<API-URI>/user",
+        "user_role_uri" => "<API-URI>/user-role",
+    ],
+    "rbac" => [
+        "GUEST" => [
+            "Application.IndexController.index.view",
+            "UserModule.UserController.login.view",
+            "UserModule.UserController.login.post",
+        ],
+        "USER" => [
+            "Application.IndexController.dashboard.view",
+            "+GUEST",
+        ],
+        "ADMIN" => [
+            "Application.IndexController.*",
+            "+USER",
+        ],
+    ],
+/*    "session_config" => [
+        "config_class" => SessionConfig::class,
+    ],*/
+];

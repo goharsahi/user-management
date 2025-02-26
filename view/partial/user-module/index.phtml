@@ -1,0 +1,44 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer|Laminas\Mvc\Plugin\FlashMessenger\View\HelperTrait $this
+ */
+
+use UserModule\Form\EmailForm;
+
+$emailForm = $this->emailForm;
+$emailForm->setAttribute("action", $this->actionUrl);
+$emailForm->prepare();
+if ($this->flashMessenger()
+    ->hasMessages()) {
+    echo $this->flashMessenger()
+        ->render("error", ["alert", "alert-dismissible", "alert-danger",]);
+}
+$this->flashMessenger()
+    ->clearMessages();
+?>
+<div class="row align-items-center justify-content-center">
+    <div class="col-md-6 shadow-sm">
+        <h2 class="pt-2 text-center">
+            <span class="text-muted"><?php echo $this->title ?></span>
+        </h2>
+        <?php echo $this->form()
+            ->openTag($emailForm); ?>
+        <div class="mb-3">
+            <?php echo $this->formLabel($emailForm->get(EmailForm::TEXT_EMAIL)); ?>
+            <div class="input-group">
+                <?php echo $this->formText($emailForm->get(EmailForm::TEXT_EMAIL)); ?>
+            </div>
+            <div class="text-danger">
+                <?php echo $this->formElementErrors($emailForm->get(EmailForm::TEXT_EMAIL)); ?>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="mb-3">
+                <?php echo $this->formSubmit($emailForm->get(EmailForm::TEXT_SUBMIT)); ?>
+            </div>
+        </div>
+        <?php echo $this->form()
+            ->closeTag(); ?>
+    </div>
+</div>
